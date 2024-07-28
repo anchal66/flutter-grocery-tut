@@ -16,3 +16,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//What is bloc:
+// UI pass event -> BLOC ->
+//Bloc takes event do some logic and pass -> STATE
+// This state then updates the UI
