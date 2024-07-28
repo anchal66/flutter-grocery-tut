@@ -1,4 +1,6 @@
+import 'package:bloc_tet/features/cart/ui/cart.dart';
 import 'package:bloc_tet/features/home/bloc/home_bloc.dart';
+import 'package:bloc_tet/features/wishlist/ui/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,12 +17,22 @@ class _HomeState extends State<Home> {
     final HomeBloc homeBloc = HomeBloc();
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homeBloc,
-      listener: (context, state) {},
-      // listenWhen: (pre, curr) {},
-      // buildWhen: (pre, curr) {},
+      listener: (context, state) {
+        if (state is HomeNavigateToCartPageActionState) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Cart()));
+        } else if (state is HomeNavigateToWishListPageActionState) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Wishlist()));
+        }
+      },
+      listenWhen: (pre, curr) => curr is HomeActionState,
+      buildWhen: (pre, curr) => curr is! HomeActionState,
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
             actions: [
               IconButton(
                 onPressed: () {
