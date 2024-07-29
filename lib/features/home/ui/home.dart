@@ -12,9 +12,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final HomeBloc homeBloc = HomeBloc();
+
+  @override
+  void initState() {
+    // App opens add initial events
+    homeBloc.add(HomeInitialEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final HomeBloc homeBloc = HomeBloc();
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: homeBloc,
       listener: (context, state) {
@@ -29,27 +37,44 @@ class _HomeState extends State<Home> {
       listenWhen: (pre, curr) => curr is HomeActionState,
       buildWhen: (pre, curr) => curr is! HomeActionState,
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.teal,
-            foregroundColor: Colors.white,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  homeBloc.add(HomeWishListButtonNavigateEvent());
-                },
-                icon: Icon(Icons.favorite_border),
+        switch (state.runtimeType) {
+          case HomeLoadingState:
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
               ),
-              IconButton(
-                onPressed: () {
-                  homeBloc.add(HomeCartButtonNavigateEvent());
-                },
-                icon: Icon(Icons.shopping_bag_outlined),
+            );
+          case HomeLoadedSuccessState:
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.teal,
+                foregroundColor: Colors.white,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      homeBloc.add(HomeWishListButtonNavigateEvent());
+                    },
+                    icon: Icon(Icons.favorite_border),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      homeBloc.add(HomeCartButtonNavigateEvent());
+                    },
+                    icon: Icon(Icons.shopping_bag_outlined),
+                  ),
+                ],
+                title: Text("Grocery APP"),
               ),
-            ],
-            title: Text("Grocery APP"),
-          ),
-        );
+            );
+          case HomeErrorState:
+            return const Scaffold(
+              body: Center(
+                child: Text('Error'),
+              ),
+            );
+          default:
+            return SizedBox();
+        }
       },
     );
   }
