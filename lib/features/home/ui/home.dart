@@ -1,5 +1,6 @@
 import 'package:bloc_tet/features/cart/ui/cart.dart';
 import 'package:bloc_tet/features/home/bloc/home_bloc.dart';
+import 'package:bloc_tet/features/home/ui/project_tile_widget.dart';
 import 'package:bloc_tet/features/wishlist/ui/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,27 +46,33 @@ class _HomeState extends State<Home> {
               ),
             );
           case HomeLoadedSuccessState:
+            final successState = state as HomeLoadedSuccessState;
             return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.teal,
-                foregroundColor: Colors.white,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      homeBloc.add(HomeWishListButtonNavigateEvent());
-                    },
-                    icon: Icon(Icons.favorite_border),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      homeBloc.add(HomeCartButtonNavigateEvent());
-                    },
-                    icon: Icon(Icons.shopping_bag_outlined),
-                  ),
-                ],
-                title: Text("Grocery APP"),
-              ),
-            );
+                appBar: AppBar(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        homeBloc.add(HomeWishListButtonNavigateEvent());
+                      },
+                      icon: Icon(Icons.favorite_border),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        homeBloc.add(HomeCartButtonNavigateEvent());
+                      },
+                      icon: Icon(Icons.shopping_bag_outlined),
+                    ),
+                  ],
+                  title: Text("Grocery APP"),
+                ),
+                body: ListView.builder(
+                    itemCount: successState.products.length,
+                    itemBuilder: (context, index) {
+                      return ProjectTileWidget(
+                          productDataModel: successState.products[index]);
+                    }));
           case HomeErrorState:
             return const Scaffold(
               body: Center(
@@ -73,6 +80,7 @@ class _HomeState extends State<Home> {
               ),
             );
           default:
+            //it will not here
             return SizedBox();
         }
       },
