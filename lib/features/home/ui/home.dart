@@ -71,6 +71,7 @@ class _HomeState extends State<Home> {
                     itemCount: successState.products.length,
                     itemBuilder: (context, index) {
                       return ProjectTileWidget(
+                          homeBloc: homeBloc,
                           productDataModel: successState.products[index]);
                     }));
           case HomeErrorState:
