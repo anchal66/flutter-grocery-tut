@@ -21,5 +21,9 @@ class HomeNavigateToWishListPageActionState extends HomeActionState {}
 
 class HomeNavigateToCartPageActionState extends HomeActionState {}
 
+//THis is for sending back to UI that item added success when fav or cart is clicked
+//in ProductItem:
+class HomeProductItemWishListedActionState extends HomeActionState {}
+class HomeProductItemCartedActionState extends HomeActionState {}
 //States are 2 type simple state that will build the UI,
 //And actinable state
