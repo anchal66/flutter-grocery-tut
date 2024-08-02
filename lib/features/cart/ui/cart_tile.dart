@@ -13,8 +13,8 @@ class CartTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.black)),
@@ -47,7 +47,7 @@ class CartTileWidget extends StatelessWidget {
               Text(
                 '\$ ${productDataModel.price}',
                 style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,10 +61,10 @@ class CartTileWidget extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      // homeBloc.add(HomeProductCartButtonCLickedEvent(
-                      //     clickedProduct: productDataModel));
+                      cartBloc.add(CartRemoveFromCartEvent(
+                          productDataModel: productDataModel));
                     },
-                    icon: Icon(Icons.shopping_bag),
+                    icon: const Icon(Icons.delete),
                   ),
                 ],
               )
